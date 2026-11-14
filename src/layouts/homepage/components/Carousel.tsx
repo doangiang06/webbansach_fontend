@@ -38,7 +38,7 @@ function Carousel() {
           <div className="row align-items-center">
             <div className="col-5">
               <img
-                src={require("./../../../images/books/1.jpg")}
+                src="/images/books/1.jpg"
                 className="float-end"
                 style={{ width: "150px" }}
                 alt="Book 1"
@@ -56,7 +56,7 @@ function Carousel() {
           <div className="row align-items-center">
             <div className="col-5">
               <img
-                src={require("./../../../images/books/2.jpg")}
+                src="/images/books/2.jpg"
                 className="float-end"
                 style={{ width: "150px" }}
                 alt="Book 2"
@@ -74,7 +74,7 @@ function Carousel() {
           <div className="row align-items-center">
             <div className="col-5">
               <img
-                src={require("./../../../images/books/3.jpg")}
+                src="/images/books/3.jpg"
                 className="float-end"
                 style={{ width: "150px" }}
                 alt="Book 3"
