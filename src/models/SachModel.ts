@@ -1,11 +1,11 @@
 class SachModel {
   maSach: number;
-  tenSach?: String; //có thẻ bị null
+  tenSach?: string; //có thẻ bị null
   giaBan?: number;
   giaNiemYet?: number;
-  moTa?: String;
+  moTa?: string;
   soLuong?: number;
-  tenTacGia?: String;
+  tenTacGia?: string;
   trungBinhXepHang?: number;
   constructor(
     maSach: number,

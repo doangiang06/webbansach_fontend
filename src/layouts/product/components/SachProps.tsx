@@ -1,20 +1,71 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Book from "../../../models/Book";
 import SachModel from "../../../models/SachModel";
+import HinhAnhModel from "../../../models/HinhAnhModel";
+import { layToanBoAnhCuaMotSach } from "../../../api/HinhanhAPI";
 interface SachPropsInterface {
   sach: SachModel;
 }
 
 const SachProps: React.FC<SachPropsInterface> = (props) => {
+  const maSach: number = props.sach.maSach;
+  const [danhSachAnh, setDanhSachAnh] = useState<HinhAnhModel[]>([]);
+  const [dangTaiDuLieu, setDangTaiDuLieu] = useState(true);
+  const [baoLoi, setBaoLoi] = useState(null);
+
+  useEffect(() => {
+    layToanBoAnhCuaMotSach(maSach)
+      .then((hinhAnhData) => {
+        setDanhSachAnh(hinhAnhData);
+        setDangTaiDuLieu(false);
+      })
+      .catch((error) => {
+        setBaoLoi(error.message);
+        setDangTaiDuLieu(false);
+      });
+  }, [maSach]); // Thêm [maSach] để tránh gọi API liên tục
+
+  if (dangTaiDuLieu) {
+    return (
+      <div>
+        <h1>Đang tải dữ liệu</h1>
+      </div>
+    );
+  }
+
+  if (baoLoi) {
+    return (
+      <div>
+        <h1>Gặp lỗi : {baoLoi}</h1>
+      </div>
+    );
+  }
+
+  // console.log(danhSachAnh[0]);
+  let duLieuAnh: string = "";
+  // ✅ Đổi danhSachAnh[0] lên trước để kiểm tra xem nó có tồn tại không đã
+  if (danhSachAnh[0] && danhSachAnh[0].duLieuAnh) {
+    duLieuAnh = danhSachAnh[0].duLieuAnh;
+  }
+
   return (
     <div className="col-md-3 mt-2">
       <div className="card">
-        <img
-        //   src={props.sach}
-        //   className="card-img-top"
-        //   alt={props.sach.tenSach}
-        //   style={{ height: "200px" }}
-        />
+        {duLieuAnh ? (
+          <img
+            src={`data:image/jpeg;base64,${duLieuAnh}`}
+            className="card-img-top"
+            alt={props.sach.tenSach}
+            style={{ height: "200px", objectFit: "cover" }}
+          />
+        ) : (
+          <div
+            className="card-img-top d-flex align-items-center justify-content-center bg-light text-muted"
+            style={{ height: "200px" }}
+          >
+            <span>Chưa có hình ảnh</span>
+          </div>
+        )}
 
         <div className="card-body">
           <h5 className="card-title">{props.sach.tenSach}</h5>

@@ -2,16 +2,21 @@ import React, { useEffect, useState } from "react";
 import SachModel from "../../models/SachModel";
 import SachProps from "./components/SachProps";
 import { layToanBoSach } from "../../api/SachAPI";
+import { error } from "console";
 
 const DanhSachSanPham: React.FC = () => {
   const [danhSachQuyenSach, setDanhSachQuyenSach] = useState<SachModel[]>([]);
   const [dangTaiDuLieu, setDangTaiDuLieu] = useState(true);
   const [baoLoi, setBaoLoi] = useState(null);
   useEffect(() => {
-    layToanBoSach().then((sachData) => {
-      setDanhSachQuyenSach(sachData);
-      setDangTaiDuLieu(false);
-    });
+    layToanBoSach()
+      .then((sachData) => {
+        setDanhSachQuyenSach(sachData);
+        setDangTaiDuLieu(false);
+      })
+      .catch((error) => {
+        setBaoLoi(error.message);
+      });
   });
   if (dangTaiDuLieu) {
     return (

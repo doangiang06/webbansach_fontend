@@ -3,7 +3,7 @@ class HinhAnhModel {
   tenHinhAnh?: string;
   laIcon?: boolean;
   duongDan?: string;
-  duLIeuAnh?: string;
+  duLieuAnh?: string;
   constructor(
     maHinhAnh: number,
     tenHinhAnh: string,
@@ -15,7 +15,7 @@ class HinhAnhModel {
     this.tenHinhAnh = tenHinhAnh;
     this.laIcon = laIcon;
     this.duongDan = duongDan;
-    this.duLIeuAnh = duLIeuAnh;
+    this.duLieuAnh = duLIeuAnh;
   }
 }
 export default HinhAnhModel;
