@@ -2,13 +2,10 @@ import React from "react";
 import SachModel from "../models/SachModel";
 import my_request from "../api/Request";
 
-export async function layToanBoSach(): Promise<SachModel[]> {
+export async function laySach(duongDan: string): Promise<SachModel[]> {
   const ketQua: SachModel[] = [];
 
   try {
-    // Xác định endpoint
-    const duongDan: string = `http://localhost:8080/sach`;
-
     // Gọi phương thức request
     const reponse = await my_request(duongDan);
 
@@ -37,4 +34,16 @@ export async function layToanBoSach(): Promise<SachModel[]> {
   }
 
   return ketQua;
+}
+export async function layToanBoSach(): Promise<SachModel[]> {
+  // Xác định endpoint
+  const duongDan: string = `http://localhost:8080/sach?sort=maSach,desc&size=100`;
+  // xắp xếp sách theo thứ tự sách mới nhất->sách cũ
+  return laySach(duongDan);
+}
+export async function lay3SachMoiNhat(): Promise<SachModel[]> {
+  // Xác định endpoint
+  const duongDan: string = `http://localhost:8080/sach?sort=maSach,desc&page=0&size=3`;
+  // xắp xếp sách theo thứ tự sách mới nhất->sách cũ và
+  return laySach(duongDan);
 }

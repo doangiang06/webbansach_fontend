@@ -1,13 +1,9 @@
 import React from "react";
 import HinhAnhModel from "../models/HinhAnhModel";
 import my_request from "../api/Request";
-
-export async function layToanBoAnhCuaMotSach(
-  maSach: number,
-): Promise<HinhAnhModel[]> {
+async function layAnhCuaMotsach(duongDan: string): Promise<HinhAnhModel[]> {
   const ketQua: HinhAnhModel[] = [];
   // Xác định endpoint
-  const duongDan: string = `http://localhost:8080/sach/${maSach}/danhSachHinhAnh`;
 
   // Gọi phương thức request
   const reponse = await my_request(duongDan);
@@ -31,4 +27,16 @@ export async function layToanBoAnhCuaMotSach(
   }
 
   return ketQua;
+}
+export async function layToanBoAnhCuaMotSach(
+  maSach: number,
+): Promise<HinhAnhModel[]> {
+  const duongDan: string = `http://localhost:8080/sach/${maSach}/danhSachHinhAnh`;
+  return layAnhCuaMotsach(duongDan);
+}
+export async function lay1AnhCuaMotSach(
+  maSach: number,
+): Promise<HinhAnhModel[]> {
+  const duongDan: string = `http://localhost:8080/sach/${maSach}/danhSachHinhAnh?sort=maHinhAnh,asc&page=0&size=1`;
+  return layAnhCuaMotsach(duongDan);
 }

@@ -3,6 +3,7 @@ import SachModel from "../../models/SachModel";
 import SachProps from "./components/SachProps";
 import { layToanBoSach } from "../../api/SachAPI";
 import { error } from "console";
+import { PhanTrang } from "../utils/PhanTrang";
 
 const DanhSachSanPham: React.FC = () => {
   const [danhSachQuyenSach, setDanhSachQuyenSach] = useState<SachModel[]>([]);
@@ -11,13 +12,15 @@ const DanhSachSanPham: React.FC = () => {
   useEffect(() => {
     layToanBoSach()
       .then((sachData) => {
+        console.log("Số sách nhận được:", sachData.length);
         setDanhSachQuyenSach(sachData);
         setDangTaiDuLieu(false);
       })
       .catch((error) => {
         setBaoLoi(error.message);
+        setDangTaiDuLieu(false);
       });
-  });
+  }, []);
   if (dangTaiDuLieu) {
     return (
       <div>
@@ -35,11 +38,12 @@ const DanhSachSanPham: React.FC = () => {
   }
   return (
     <div className="container">
-      <div className="row mt-4">
+      <div className="row mt-4 mb-4">
         {danhSachQuyenSach.map((sach) => (
           <SachProps key={sach.maSach} sach={sach} />
         ))}
       </div>
+      <PhanTrang />
     </div>
   );
 };

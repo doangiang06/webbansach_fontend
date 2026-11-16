@@ -1,13 +1,57 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import SachModel from "../../../models/SachModel";
+import { lay3SachMoiNhat } from "../../../api/SachAPI";
+import Carouselitem from "./Carouselitem";
 
-function Carousel() {
+const Carousel: React.FC = () => {
+  const [danhSachQuyenSach, setDanhSachQuyenSach] = useState<SachModel[]>([]);
+  const [dangTaiDuLieu, setDangTaiDuLieu] = useState(true);
+  const [baoLoi, setBaoLoi] = useState<string | null>(null);
+
+  useEffect(() => {
+    lay3SachMoiNhat()
+      .then((sachData) => {
+        console.log("Dữ liệu sách:", sachData);
+        setDanhSachQuyenSach(sachData);
+        setDangTaiDuLieu(false);
+      })
+      .catch((error) => {
+        setBaoLoi(error.message);
+        setDangTaiDuLieu(false);
+      });
+  }, []); // THÊM [] VÀO ĐÂY
+
+  if (dangTaiDuLieu) {
+    return (
+      <div>
+        <h1>Đang tải dữ liệu</h1>
+      </div>
+    );
+  }
+
+  if (baoLoi) {
+    return (
+      <div>
+        <h1>Gặp lỗi: {baoLoi}</h1>
+      </div>
+    );
+  }
+
+  // Nếu chưa đủ 3 sách thì không render carousel
+  if (danhSachQuyenSach.length < 3) {
+    return (
+      <div>
+        <h1>Không đủ dữ liệu sách</h1>
+      </div>
+    );
+  }
+
   return (
     <div
       id="carouselExampleCaptions"
       className="carousel slide carousel-dark"
       data-bs-ride="carousel"
     >
-      {/* 1. Các nút chỉ số (Indicators) */}
       <div className="carousel-indicators">
         <button
           type="button"
@@ -17,12 +61,14 @@ function Carousel() {
           aria-current="true"
           aria-label="Slide 1"
         ></button>
+
         <button
           type="button"
           data-bs-target="#carouselExampleCaptions"
           data-bs-slide-to="1"
           aria-label="Slide 2"
         ></button>
+
         <button
           type="button"
           data-bs-target="#carouselExampleCaptions"
@@ -31,64 +77,26 @@ function Carousel() {
         ></button>
       </div>
 
-      {/* 2. Khối chứa tất cả các Slide (Chỉ duy nhất 1 thẻ carousel-inner) */}
       <div className="carousel-inner">
-        {/* Slide 1 - Duy nhất slide đầu tiên có class "active" */}
         <div className="carousel-item active">
           <div className="row align-items-center">
-            <div className="col-5">
-              <img
-                src="/images/books/1.jpg"
-                className="float-end"
-                style={{ width: "150px" }}
-                alt="Book 1"
-              />
-            </div>
-            <div className="col-7">
-              <h5>Đọc sách là hộ chiếu</h5>
-              <p>Cho vô số cuộc phiêu lưu tuyệt vời nhất.</p>
-            </div>
+            <Carouselitem sach={danhSachQuyenSach[0]} />
           </div>
         </div>
 
-        {/* Slide 2 */}
         <div className="carousel-item">
           <div className="row align-items-center">
-            <div className="col-5">
-              <img
-                src="/images/books/2.jpg"
-                className="float-end"
-                style={{ width: "150px" }}
-                alt="Book 2"
-              />
-            </div>
-            <div className="col-7">
-              <h5>Khám phá tri thức mới</h5>
-              <p>Mỗi cuốn sách đại diện cho một thế giới riêng.</p>
-            </div>
+            <Carouselitem sach={danhSachQuyenSach[1]} />
           </div>
         </div>
 
-        {/* Slide 3 */}
         <div className="carousel-item">
           <div className="row align-items-center">
-            <div className="col-5">
-              <img
-                src="/images/books/3.jpg"
-                className="float-end"
-                style={{ width: "150px" }}
-                alt="Book 3"
-              />
-            </div>
-            <div className="col-7">
-              <h5>Nâng tầm giá trị bản thân</h5>
-              <p>Duy trì thói quen đọc sách mỗi ngày.</p>
-            </div>
+            <Carouselitem sach={danhSachQuyenSach[2]} />
           </div>
         </div>
       </div>
 
-      {/* 3. Nút Điều hướng Prev / Next */}
       <button
         className="carousel-control-prev"
         type="button"
@@ -98,6 +106,7 @@ function Carousel() {
         <span className="carousel-control-prev-icon" aria-hidden="true"></span>
         <span className="visually-hidden">Previous</span>
       </button>
+
       <button
         className="carousel-control-next"
         type="button"
@@ -109,6 +118,6 @@ function Carousel() {
       </button>
     </div>
   );
-}
+};
 
 export default Carousel;
