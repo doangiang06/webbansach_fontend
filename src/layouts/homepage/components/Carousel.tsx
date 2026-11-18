@@ -10,9 +10,9 @@ const Carousel: React.FC = () => {
 
   useEffect(() => {
     lay3SachMoiNhat()
-      .then((sachData) => {
-        console.log("Dữ liệu sách:", sachData);
-        setDanhSachQuyenSach(sachData);
+      .then((kq) => {
+        // console.log("Dữ liệu sách:", sachData);
+        setDanhSachQuyenSach(kq.ketQua);
         setDangTaiDuLieu(false);
       })
       .catch((error) => {

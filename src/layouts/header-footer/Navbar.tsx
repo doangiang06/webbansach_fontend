@@ -1,5 +1,14 @@
-import React from "react";
-function Navbar() {
+import React, { ChangeEvent } from "react";
+interface NavbarProps {
+  tuKhoaTimKiem: string;
+  setTuKhoaTimKiem: (tuKhoa: string) => void;
+}
+function Navbar({ tuKhoaTimKiem, setTuKhoaTimKiem }: NavbarProps) {
+  // gọi hầm bên app.tsx
+  const onSearchInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setTuKhoaTimKiem(e.target.value);
+  };
+
   return (
     <nav>
       <div className="App">
@@ -92,17 +101,19 @@ function Navbar() {
                 </a>
               </li>
             </ul>
-            <form className="d-flex">
+            <div className="d-flex">
               <input
                 className="form-control me-2"
                 type="search"
                 placeholder="Tìm kiếm"
                 aria-label="Search"
+                onChange={onSearchInputChange}
+                value={tuKhoaTimKiem}
               />
               <button className="btn btn-outline-success" type="submit">
                 Search
               </button>
-            </form>
+            </div>
             {/* Biểu tượng giỏ hàng */}
             <ul className="navbar-nav me-1">
               <li className="nav-item">
