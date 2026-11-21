@@ -1,14 +1,19 @@
-import React, { ChangeEvent } from "react";
+import React, { ChangeEvent, useState } from "react";
+import { Link } from "react-router-dom";
 interface NavbarProps {
   tuKhoaTimKiem: string;
   setTuKhoaTimKiem: (tuKhoa: string) => void;
 }
 function Navbar({ tuKhoaTimKiem, setTuKhoaTimKiem }: NavbarProps) {
   // gọi hầm bên app.tsx
+  const [tuKhoaTamThoi, setTuKhoaTamThoi] = useState(""); // biens tạm thời lưu chữ
   const onSearchInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setTuKhoaTimKiem(e.target.value);
+    setTuKhoaTamThoi(e.target.value);
   };
-
+  const handleSearch = () => {
+    // khi người ta ấn nút mới cập nhật lại
+    setTuKhoaTimKiem(tuKhoaTamThoi);
+  };
   return (
     <nav>
       <div className="App">
@@ -38,31 +43,31 @@ function Navbar({ tuKhoaTimKiem, setTuKhoaTimKiem }: NavbarProps) {
                 </a>
               </li>
               <li className="nav-item dropdown">
-                <a
+                <Link
                   className="nav-link dropdown-toggle"
-                  href="#"
+                  to="#"
                   id="navbarDropdown1"
                   role="button"
                   data-bs-toggle="dropdown"
                   aria-expanded="false"
                 >
                   Thể loại sách
-                </a>
+                </Link>
                 <ul className="dropdown-menu" aria-labelledby="navbarDropdown1">
                   <li>
-                    <a className="dropdown-item" href="#">
+                    <Link className="dropdown-item" to="/1">
                       Thể loại 1
-                    </a>
+                    </Link>
                   </li>
                   <li>
-                    <a className="dropdown-item" href="#">
+                    <Link className="dropdown-item" to="/2">
                       Thể loại 2
-                    </a>
+                    </Link>
                   </li>
                   <li>
-                    <a className="dropdown-item" href="#">
+                    <Link className="dropdown-item" to="/3">
                       Thể loại 3
-                    </a>
+                    </Link>
                   </li>
                 </ul>
               </li>
@@ -108,9 +113,13 @@ function Navbar({ tuKhoaTimKiem, setTuKhoaTimKiem }: NavbarProps) {
                 placeholder="Tìm kiếm"
                 aria-label="Search"
                 onChange={onSearchInputChange}
-                value={tuKhoaTimKiem}
+                value={tuKhoaTamThoi}
               />
-              <button className="btn btn-outline-success" type="submit">
+              <button
+                className="btn btn-outline-success"
+                type="button"
+                onClick={handleSearch}
+              >
                 Search
               </button>
             </div>

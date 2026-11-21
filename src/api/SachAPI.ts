@@ -1,6 +1,7 @@
 import React from "react";
 import SachModel from "../models/SachModel";
 import my_request from "../api/Request";
+import { error } from "console";
 
 interface ketQuaInterface {
   ketQua: SachModel[];
@@ -32,15 +33,20 @@ export async function laySach(duongDan: string): Promise<ketQuaInterface> {
     const tongSoSach: number = reponse.page.totalElements;
 
     for (const key in responseData) {
+      const item = responseData[key];
+      const selfHref: string = item?._links?.self?.href || "";
+      const idMatch = selfHref.match(/\/(\d+)$/);
+      const maSach = item?.maSach ?? (idMatch ? Number(idMatch[1]) : undefined);
+
       ketQua.push({
-        maSach: responseData[key].maSach,
-        tenSach: responseData[key].tenSach,
-        giaBan: responseData[key].giaBan,
-        giaNiemYet: responseData[key].giaNiemYet,
-        moTa: responseData[key].moTa,
-        soLuong: responseData[key].soLuong,
-        tenTacGia: responseData[key].tenTacGia,
-        trungBinhXepHang: responseData[key].trungBinhXepHang,
+        maSach: maSach,
+        tenSach: item?.tenSach,
+        giaBan: item?.giaBan,
+        giaNiemYet: item?.giaNiemYet,
+        moTa: item?.moTa,
+        soLuong: item?.soLuong,
+        tenTacGia: item?.tenTacGia,
+        trungBinhXepHang: item?.trungBinhXepHang,
       });
     }
 
@@ -78,15 +84,53 @@ export async function lay3SachMoiNhat(): Promise<ketQuaInterface> {
   // xắp xếp sách theo thứ tự sách mới nhất->sách cũ và
   return laySach(duongDan);
 }
+
 export async function timKiemSach(
   tuKhoaTimKiem: string,
+  maTheLoai: number,
 ): Promise<ketQuaInterface> {
   // Xác định endpoint
   let duongDan: string = `http://localhost:8080/sach?sort=maSach,desc&size=8&page=0`;
 
-  if (tuKhoaTimKiem != "") {
+  if (tuKhoaTimKiem !== "" && maTheLoai == 0) {
     duongDan = `http://localhost:8080/sach/search/findByTenSachContaining?sort=maSach,desc&size=8&page=0&tenSach=${tuKhoaTimKiem}`;
+  } else if (tuKhoaTimKiem === "" && maTheLoai > 0) {
+    duongDan = `http://localhost:8080/sach/search/findByDanhSachTheLoai_MaTheLoai?sort=maSach,desc&size=8&page=0&maTheLoai=${maTheLoai}`;
+  } else if (tuKhoaTimKiem !== "" && maTheLoai > 0) {
+    duongDan = `http://localhost:8080/sach/search/findByTenSachContainingAndDanhSachTheLoai_MaTheLoai?sort=maSach,desc&size=8&page=0&tenSach=${tuKhoaTimKiem}&maTheLoai=${maTheLoai}`;
   }
 
   return laySach(duongDan);
+}
+export async function laySachTheoMaSach(
+  maSach: number,
+): Promise<SachModel | null> {
+  const duongDan = `http://localhost:8080/sach/${maSach}`;
+
+  let ketQua: SachModel;
+
+  try {
+    const response = await my_request(duongDan);
+    if (!response.ok) {
+      throw new Error("gặp lỗi trong quá trinhfgoij API lấy sách");
+    }
+    const sachData = await response.jsion();
+    if (sachData) {
+      return {
+        maSach: sachData.maSach,
+        tenSach: sachData.tenSach,
+        giaBan: sachData.giaBan,
+        giaNiemYet: sachData.giaNiemYet,
+        moTa: sachData.moTa,
+        soLuong: sachData.soLuong,
+        tenTacGia: sachData.tenTacGia,
+        trungBinhXepHang: sachData.trungBinhXepHang,
+      };
+    } else {
+      throw new Error("sách khoog tồn tại");
+    }
+  } catch (error) {
+    console.error("Error:", error);
+    return null;
+  }
 }

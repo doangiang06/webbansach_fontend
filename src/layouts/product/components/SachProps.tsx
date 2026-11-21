@@ -3,6 +3,7 @@ import Book from "../../../models/Book";
 import SachModel from "../../../models/SachModel";
 import HinhAnhModel from "../../../models/HinhAnhModel";
 import { layToanBoAnhCuaMotSach } from "../../../api/HinhanhAPI";
+import { Link } from "react-router-dom";
 interface SachPropsInterface {
   sach: SachModel;
 }
@@ -51,24 +52,36 @@ const SachProps: React.FC<SachPropsInterface> = (props) => {
   return (
     <div className="col-md-3 mt-2">
       <div className="card">
-        {duLieuAnh ? (
-          <img
-            src={`data:image/jpeg;base64,${duLieuAnh}`}
-            className="card-img-top"
-            alt={props.sach.tenSach}
-            style={{ height: "200px", objectFit: "cover" }}
-          />
-        ) : (
-          <div
-            className="card-img-top d-flex align-items-center justify-content-center bg-light text-muted"
-            style={{ height: "200px" }}
-          >
-            <span>Chưa có hình ảnh</span>
-          </div>
-        )}
+        <Link
+          to={`/sach/${props.sach.maSach}`}
+          style={{ textDecoration: "none" }}
+        >
+          {duLieuAnh ? (
+            <img
+              src={`data:image/jpeg;base64,${duLieuAnh}`}
+              className="card-img-top"
+              alt={props.sach.tenSach}
+              style={{ height: "200px", objectFit: "cover" }}
+            />
+          ) : (
+            <div
+              className="card-img-top d-flex align-items-center justify-content-center bg-light text-muted"
+              style={{ height: "200px" }}
+            >
+              <span>Chưa có hình ảnh</span>
+            </div>
+          )}
+        </Link>
 
         <div className="card-body">
-          <h5 className="card-title">{props.sach.tenSach}</h5>
+          <Link
+            to={`/sach/${props.sach.maSach}`}
+            style={{ textDecoration: "none" }}
+          >
+            {" "}
+            <h5 className="card-title">{props.sach.tenSach}</h5>
+          </Link>
+
           <p className="card-text">{props.sach.moTa}</p>
 
           <div className="price">
