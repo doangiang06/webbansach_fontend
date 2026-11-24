@@ -42,6 +42,9 @@ const ChiTietSanPham: React.FC = () => {
       setSoLuong(soLuongMoi);
     }
   };
+  // xử lý sau
+  const handleMuaNgay = () => {};
+  const handleThemVaoGioHang = () => {};
 
   useEffect(() => {
     laySachTheoMaSach(maSachNumber)
@@ -136,6 +139,23 @@ const ChiTietSanPham: React.FC = () => {
                     <h4>{dinhDangSo(soLuong * sach.giaBan)} đ</h4>
                   </div>
                 )}
+                <div className="d-grid gap-2">
+                  {" "}
+                  <button
+                    type="button"
+                    className="btn btn-danger mt-3"
+                    onClick={handleMuaNgay}
+                  >
+                    Mua Ngay
+                  </button>{" "}
+                  <button
+                    type="button"
+                    className="btn btn-outline-secondary mt-2"
+                    onClick={handleThemVaoGioHang}
+                  >
+                    Thêm Vào Giỏ Hàng
+                  </button>
+                </div>
               </div>
             </div>
           </div>
