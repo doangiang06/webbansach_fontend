@@ -4,6 +4,7 @@ import SachModel from "../../../models/SachModel";
 import HinhAnhModel from "../../../models/HinhAnhModel";
 import { layToanBoAnhCuaMotSach } from "../../../api/HinhanhAPI";
 import { Link } from "react-router-dom";
+import SaoXepHang from "../../utils/SaoXepHang";
 interface SachPropsInterface {
   sach: SachModel;
 }
@@ -83,7 +84,7 @@ const SachProps: React.FC<SachPropsInterface> = (props) => {
           </Link>
 
           <div className="price">
-            <span className="original-price">
+            <span className="original-price me-3">
               <del>{props.sach.giaNiemYet?.toLocaleString()}đ</del>
             </span>{" "}
             <span className="discounted-price">
@@ -93,12 +94,15 @@ const SachProps: React.FC<SachPropsInterface> = (props) => {
 
           <div className="row mt-2" role="group">
             <div className="col-6">
-              <a href="#" className="btn btn-secondary btn-block">
-                <i className="fas fa-heart"></i>
-              </a>
+              {SaoXepHang(
+                props.sach.trungBinhXepHang ? props.sach.trungBinhXepHang : 0,
+              )}
             </div>
 
-            <div className="col-6">
+            <div className="col-6 text-end">
+              <a href="#" className="btn btn-secondary btn-block me-3">
+                <i className="fas fa-heart"></i>
+              </a>
               <button className="btn btn-danger btn-block">
                 <i className="fas fa-shopping-cart"></i>
               </button>

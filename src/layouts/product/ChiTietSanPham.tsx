@@ -7,6 +7,7 @@ import { error } from "console";
 import HinhAnhSanPham from "./components/HinhAnhSanPham";
 import DanhGiaSanPham from "./components/DanhGiaSanPham";
 import SaoXepHang from "../utils/SaoXepHang";
+import dinhDangSo from "../utils/DinhDangSo";
 
 const ChiTietSanPham: React.FC = () => {
   const { maSach } = useParams(); //lấy mã sách
@@ -73,7 +74,7 @@ const ChiTietSanPham: React.FC = () => {
               <h4>
                 <div>
                   <span className="text-muted text-decoration-line-through me-2">
-                    {sach.giaNiemYet?.toLocaleString()}đ
+                    {dinhDangSo(sach.giaNiemYet)}đ
                   </span>
 
                   <span className="text-danger fw-bold fs-4">
