@@ -24,6 +24,25 @@ const ChiTietSanPham: React.FC = () => {
   const [sach, setSach] = useState<SachModel | null>(null);
   const [dangTaiDuLieu, setDangTaiDuLieu] = useState(true);
   const [baoLoi, setBaoLoi] = useState(null);
+  const [soLuong, setSoLuong] = useState(1); // số lượng hàng ít nhát = 1
+
+  const tangSoLuong = () => {
+    const soLuongTonKho = sach && sach.soLuong ? sach.soLuong : 0;
+    if (soLuong < soLuongTonKho) setSoLuong(soLuong + 1);
+  };
+  const giamSoLuong = () => {
+    if (soLuong >= 2) {
+      setSoLuong(soLuong - 1);
+    }
+  };
+  const handleSoLuongChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const soLuongMoi = parseInt(event.target.value);
+    const soLuongTonKho = sach && sach.soLuong ? sach.soLuong : 0;
+    if (!isNaN(soLuongMoi) && soLuongMoi >= 1 && soLuongMoi <= soLuongTonKho) {
+      setSoLuong(soLuongMoi);
+    }
+  };
+
   useEffect(() => {
     laySachTheoMaSach(maSachNumber)
       .then((sach) => {
@@ -87,7 +106,38 @@ const ChiTietSanPham: React.FC = () => {
 
               <hr />
             </div>
-            <div className="col-4">Phần Đặt Hàng</div>
+            <div className="col-4">
+              <div>
+                <div className="mb-2">Số lượng</div>
+                <div className="d-flex align-items-center">
+                  <button
+                    className="btn-outline-secondary me-2"
+                    onClick={giamSoLuong}
+                  >
+                    -
+                  </button>
+                  <input
+                    className="form-control text-center"
+                    type="number"
+                    value={soLuong}
+                    min={1}
+                    onChange={handleSoLuongChange} // hmaf xử lý khi nhập vao từ bàn phím
+                  />
+                  <button
+                    className="btn-outline-secondary ms-2"
+                    onClick={tangSoLuong}
+                  >
+                    +
+                  </button>
+                </div>
+                {sach.giaBan && (
+                  <div className=" mt-2" text-center>
+                    Số tiền tạm tính <br />
+                    <h4>{dinhDangSo(soLuong * sach.giaBan)} đ</h4>
+                  </div>
+                )}
+              </div>
+            </div>
           </div>
         </div>
       </div>
