@@ -1,5 +1,6 @@
 import React, { ChangeEvent, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
+import { Search } from "react-bootstrap-icons";
 interface NavbarProps {
   tuKhoaTimKiem: string;
   setTuKhoaTimKiem: (tuKhoa: string) => void;
@@ -38,9 +39,9 @@ function Navbar({ tuKhoaTimKiem, setTuKhoaTimKiem }: NavbarProps) {
           <div className="collapse navbar-collapse" id="navbarSupportContent">
             <ul className="navbar-nav  me-auto mb-2 mb-lg-0">
               <li className="nav-item">
-                <a className="nav-link active" aria-current="page" href="#">
+                <NavLink className="nav-link active" aria-current="page" to="/">
                   Trang chủ
-                </a>
+                </NavLink>
               </li>
               <li className="nav-item dropdown">
                 <Link
@@ -55,19 +56,19 @@ function Navbar({ tuKhoaTimKiem, setTuKhoaTimKiem }: NavbarProps) {
                 </Link>
                 <ul className="dropdown-menu" aria-labelledby="navbarDropdown1">
                   <li>
-                    <Link className="dropdown-item" to="/1">
+                    <NavLink className="dropdown-item" to="/1">
                       Thể loại 1
-                    </Link>
+                    </NavLink>
                   </li>
                   <li>
-                    <Link className="dropdown-item" to="/2">
+                    <NavLink className="dropdown-item" to="/2">
                       Thể loại 2
-                    </Link>
+                    </NavLink>
                   </li>
                   <li>
-                    <Link className="dropdown-item" to="/3">
+                    <NavLink className="dropdown-item" to="/3">
                       Thể loại 3
-                    </Link>
+                    </NavLink>
                   </li>
                 </ul>
               </li>
@@ -120,7 +121,7 @@ function Navbar({ tuKhoaTimKiem, setTuKhoaTimKiem }: NavbarProps) {
                 type="button"
                 onClick={handleSearch}
               >
-                Search
+                <Search />
               </button>
             </div>
             {/* Biểu tượng giỏ hàng */}

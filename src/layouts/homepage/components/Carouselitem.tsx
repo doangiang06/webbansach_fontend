@@ -67,8 +67,6 @@ const Carouselitem: React.FC<CarouselitemInterface> = (props) => {
 
       <div className="col-md-7">
         <h3>{props.sach.tenSach}</h3>
-
-        <p className="text-muted">{props.sach.moTa}</p>
       </div>
     </div>
   );

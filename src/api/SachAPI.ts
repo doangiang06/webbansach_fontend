@@ -110,11 +110,11 @@ export async function laySachTheoMaSach(
   let ketQua: SachModel;
 
   try {
-    const response = await my_request(duongDan);
+    const response = await fetch(duongDan);
     if (!response.ok) {
       throw new Error("gặp lỗi trong quá trinhfgoij API lấy sách");
     }
-    const sachData = await response.jsion();
+    const sachData = await response.json();
     if (sachData) {
       return {
         maSach: sachData.maSach,

@@ -82,8 +82,6 @@ const SachProps: React.FC<SachPropsInterface> = (props) => {
             <h5 className="card-title">{props.sach.tenSach}</h5>
           </Link>
 
-          <p className="card-text">{props.sach.moTa}</p>
-
           <div className="price">
             <span className="original-price">
               <del>{props.sach.giaNiemYet?.toLocaleString()}đ</del>
