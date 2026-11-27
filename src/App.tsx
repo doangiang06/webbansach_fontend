@@ -6,6 +6,7 @@ import { useState } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import About from "./layouts/about/About";
 import ChiTietSanPham from "./layouts/product/ChiTietSanPham";
+import DangKyNguoiDung from "./layouts/user/DangKyNguoiDung";
 
 function App() {
   const [tuKhoaTimKiem, setTuKhoaTimKiem] = useState("");
@@ -29,6 +30,7 @@ function App() {
           />
           <Route path="/about" element={<About />} />
           <Route path="/sach/:maSach" element={<ChiTietSanPham />} />
+          <Route path="/dangKy" element={<DangKyNguoiDung />} />
         </Routes>
         <Footer />
       </BrowserRouter>
